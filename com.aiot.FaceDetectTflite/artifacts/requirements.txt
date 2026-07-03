@@ -1,0 +1,20 @@
+# Dependencies for com.aiot.FaceDetect
+# Python 3.8+ / aarch64 Linux (Vivante NPU target)
+
+# Primary inference runtime. Board (aarch64 Vivante NPU) installs tflite-runtime and runs
+# via the VX delegate. x86_64 desktops have NO tflite-runtime wheel, so install
+# ai-edge-litert there instead (official lightweight LiteRT, ~17 MB, inference-
+# only): backend/tflite_backend.py imports it via the same interpreter API and
+# uses the CPU interpreter when libvx_delegate.so is absent.
+# The aarch64 line is unchanged, so the board install behaves exactly as before.
+tflite-runtime>=2.13.0; platform_machine == "aarch64" and sys_platform == "linux"
+ai-edge-litert==1.2.0; platform_machine == "x86_64" or sys_platform == "darwin"
+
+# Video capture, drawing, encoding
+opencv-python-headless>=4.5.0
+av>=12.0.0
+numpy>=1.21.0
+
+# Optional: ONNX Runtime CPU fallback
+# Uncomment if needed for non-TFLite environments
+# onnxruntime>=1.8.0

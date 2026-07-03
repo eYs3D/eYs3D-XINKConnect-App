@@ -1,0 +1,8 @@
+# com.aiot.EYS3DCamera Python dependencies
+# Linux aarch64 / x86_64; headless deployment.
+
+loguru>=0.7.0
+numpy>=1.21.0
+opencv-python-headless>=4.5.0
+av>=12.0.0
+tflite-runtime>=2.13.0

@@ -1,0 +1,10 @@
+{
+  "rtsp_url": "rtsp://192.168.110.123/stream2.264",
+  "socket_host": "0.0.0.0",
+  "socket_port": 9999,
+  "video_width": 640,
+  "video_height": 360,
+  "video_fps": 24,
+  "h264_bitrate": 500000,
+  "gop_size": 10
+}

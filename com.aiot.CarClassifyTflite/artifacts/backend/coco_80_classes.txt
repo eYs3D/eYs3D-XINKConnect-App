@@ -1,0 +1,93 @@
+COCO 80 Classes — YOLO11 Detection / Pose / Segmentation
+=========================================================
+
+ID    Class Name
+---   ----------
+ 0    person
+ 1    bicycle
+ 2    car
+ 3    motorcycle
+ 4    airplane
+ 5    bus
+ 6    train
+ 7    truck
+ 8    boat
+ 9    traffic light
+10    fire hydrant
+11    stop sign
+12    parking meter
+13    bench
+14    bird
+15    cat
+16    dog
+17    elephant
+18    bear
+19    zebra
+20    giraffe
+21    backpack
+22    umbrella
+23    handbag
+24    tie
+25    suitcase
+26    frisbee
+27    skis
+28    snowboard
+29    sports ball
+30    kite
+31    baseball bat
+32    baseball glove
+33    skateboard
+34    surfboard
+35    tennis racket
+36    bottle
+37    wine glass
+38    cup
+39    fork
+40    knife
+41    spoon
+42    bowl
+43    banana
+44    apple
+45    sandwich
+46    orange
+47    broccoli
+48    carrot
+49    hot dog
+50    pizza
+51    donut
+52    cake
+53    chair
+54    couch
+55    potted plant
+56    bed
+57    dining table
+58    toilet
+59    tv
+60    laptop
+61    mouse
+62    remote
+63    keyboard
+64    cell phone
+65    microwave
+66    oven
+67    toaster
+68    sink
+69    refrigerator
+70    book
+71    clock
+72    vase
+73    scissors
+74    teddy bear
+75    hair drier
+76    toothbrush
+77    (reserved)
+78    (reserved)
+79    (reserved)
+
+=========================================================
+Usage in config (track_classes):
+
+  Track only person:          "track_classes": [0]
+  Track person + car:         "track_classes": [0, 2]
+  Track all vehicles:         "track_classes": [1, 2, 3, 5, 6, 7]
+  Track all (default):        "track_classes": null

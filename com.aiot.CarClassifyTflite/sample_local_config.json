@@ -1,0 +1,23 @@
+{
+  "video_source": "local",
+  "rtsp_url": "rtsp://192.168.110.123/stream2.264",
+  "socket_host": "0.0.0.0",
+  "socket_port": 9999,
+  "video_fps": 15,
+  "h264_bitrate": 500000,
+  "gop_size": 10,
+  "det_threshold": 0.5,
+  "det_nms_iou": 0.45,
+  "det_input_size": 640,
+  "cls_threshold": 0.3,
+  "det_every_n_frames": 1,
+  "tracker": "bytetrack.yaml",
+  "npu_delegate_path": "/usr/lib/libvx_delegate.so",
+  "detector_model": {
+    "path": "backend/yolo11n_npu.tflite"
+  },
+  "classify_model": {
+    "path": "backend/yolo11n-cls_npu.tflite"
+  },
+  "classify_labels": ""
+}
