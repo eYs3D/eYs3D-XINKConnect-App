@@ -1,0 +1,48 @@
+{
+  "module_pid": "",
+  "mode_index": 1,
+  "max_capture_fps": 15,
+  "max_serial_delta": 1,
+  "ir_value": null,
+  "ir_extended": true,
+  "z_min_mm": null,
+  "z_max_mm": null,
+
+  "socket_host": "0.0.0.0",
+  "socket_port": 9999,
+  "video_fps": 15,
+  "h264_bitrate": 500000,
+  "gop_size": 10,
+
+  "display_mode": "fused",
+  "colormap": "eys3d",
+  "display_min_mm": 200,
+  "display_max_mm": 1000,
+  "overlay_alpha": 0.5,
+  "show_hud": true,
+
+  "tflite_model": {
+    "path": "backend/midas_small_256_npu.tflite"
+  },
+  "midas_input_size": 256,
+  "npu_delegate_path": "/usr/lib/libvx_delegate.so",
+  "midas_every_n": 4,
+
+  "fusion_ema_alpha": 0.3,
+  "fusion_trim_sigma": 2.5,
+  "fusion_trim_rounds": 2,
+  "fusion_min_valid_ratio": 0.05,
+  "fusion_correction_kernel": 101,
+  "fusion_subsample": 4,
+  "fusion_local_correction": true,
+  "fusion_max_fill_mm": 2500,
+
+  "depth_filter_enabled": true,
+  "depth_filter_edge_preserve": true,
+  "depth_filter_edge_level": 5,
+  "depth_filter_hole_fill": false,
+  "depth_filter_hole_fill_level": 3,
+  "depth_filter_hole_fill_kernel": 1,
+  "depth_filter_temporal": true,
+  "depth_filter_temporal_alpha": 0.4
+}

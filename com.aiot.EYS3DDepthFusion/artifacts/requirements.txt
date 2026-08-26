@@ -1,0 +1,15 @@
+# com.aiot.EYS3DDepthFusion Python dependencies
+# Linux aarch64 / x86_64; headless deployment.
+
+loguru>=0.7.0
+numpy>=1.21.0
+opencv-python-headless>=4.5.0
+av>=12.0.0
+
+# MiDaS inference. Board (aarch64 Vivante NPU) installs tflite-runtime and runs
+# via the VX delegate; x86_64 desktops have NO tflite-runtime wheel, so install
+# ai-edge-litert there instead (official lightweight LiteRT, inference-only).
+# backend/tflite_backend.py imports both through the same interpreter API and
+# falls back to the CPU interpreter when libvx_delegate.so is absent.
+tflite-runtime>=2.13.0; platform_machine == "aarch64" and sys_platform == "linux"
+ai-edge-litert==1.2.0; platform_machine == "x86_64" or sys_platform == "darwin"

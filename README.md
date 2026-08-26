@@ -17,6 +17,7 @@ A collection of real-time computer vision apps for edge devices equipped with a 
 | `com.aiot.FaceDetectTflite` | Face detection + keypoints | SCRFD-500M (5 keypoints) | — |
 | `com.aiot.RTSP` | RTSP relay + H264 encode | — | — |
 | `com.aiot.EYS3DCamera` | eYs3D stereo camera RGB/Depth stream + optional object detection | — | — |
+| `com.aiot.EYS3DDepthFusion` | eYs3D stereo depth with holes filled by monocular depth | MiDaS small (256, NPU) | — |
 
 ---
 
@@ -326,6 +327,36 @@ Expected output sequence:
 [capture] first color/depth frame shape=(H, W, 3) ...
 [srv] client (...) connected
 ```
+
+---
+
+### com.aiot.EYS3DDepthFusion
+
+Streams eYs3D stereo depth with its holes filled by MiDaS monocular depth. Stereo gives true millimetres but drops out on textureless walls, specular surfaces and occlusions; MiDaS is dense and stable but returns affine-invariant inverse depth with no metric meaning. This component uses stereo to pin MiDaS to metric scale, then lets MiDaS supply only the pixels stereo could not measure. Measured pixels are always kept.
+
+**Mutually exclusive with `com.aiot.EYS3DCamera`** — the camera is an exclusive device, so deploy one or the other, never both. Every failure path degrades to the raw SDK heatmap, i.e. the picture `EYS3DCamera` would have shown.
+
+- **Model**: MiDaS small, 256x256, NPU delegate
+- **Tracking**: —
+- **Annotation**: depth colorized over a fixed metric range
+
+**Key config parameters**:
+
+| Parameter | Default | Description |
+|---|---|---|
+| `display_mode` | `"fused"` | `"fused"` · `"compare"` (raw \| fused, the mode for judging this component) · `"raw_depth"` · `"rgb"` · `"side_by_side"` · `"overlay"` |
+| `colormap` | `"eys3d"` | Reproduces the SDK's own palette so `fused` and `raw_depth` read as the same instrument. cv2 names (`jet`, `turbo`, ...) also work |
+| `display_min_mm` / `display_max_mm` | `200` / `1000` | DISPLAY range, deliberately separate from the `z_min_mm` / `z_max_mm` validity range. Fixed rather than per-frame, so one colour means one distance in every frame |
+| `midas_every_n` | `4` | Run MiDaS every N frames |
+| `midas_input_size` | `256` | MiDaS input resolution |
+| `fusion_ema_alpha` | `0.3` | EMA on the fitted scale/shift. Smoothing two scalars kills inter-frame flicker with no motion ghosting |
+| `fusion_trim_sigma` / `fusion_trim_rounds` | `2.5` / `2` | Robust least-squares trimming. Trimmed rather than RANSAC on purpose — RANSAC is randomised, and that jitter would surface as the flicker this component exists to remove |
+| `fusion_local_correction` | `true` | Residual-guided local correction, so fills meet measured data continuously at hole edges instead of stepping |
+| `fusion_max_fill_mm` | `2500` | A candidate fill estimated beyond this distance is rejected and the pixel is left as a hole |
+| `max_serial_delta` | `1` | Colour frames carry EVEN serials and depth ODD, so a matched pair satisfies `color_sn - depth_sn == -1`. Requiring exact equality would form zero pairs |
+| `ir_value` | `null` | IR projector level. The cheapest lever on hole count — holes run ~63% of the frame at the device default |
+
+See `com.aiot.EYS3DDepthFusion/README.md` for the full algorithm, the colour derivation, and measurements taken on hardware.
 
 ---
 
